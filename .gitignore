@@ -1,0 +1,6 @@
+# AoC-Inputs nicht veröffentlichen
+aoc_*.txt
+
+# Python
+__pycache__/
+.venv/
