@@ -1,13 +1,13 @@
-from pathlib import Path
-from os import path
+import operator
 import re
 from functools import reduce
-import operator
 from itertools import combinations
+from pathlib import Path
+
 import numpy as np
 from scipy.optimize import linprog
 
-cwd = f'{Path(__file__).parent}\\Inputs\\{path.splitext(path.basename(__file__))[0]}.txt'
+cwd = Path(__file__).parent / "Inputs" / f"{Path(__file__).stem}.txt"
 
 with open(cwd, encoding='utf-8') as f:
     lines = [line.rstrip('\n') for line in f] 
@@ -95,7 +95,7 @@ def solve_machine_b(buttons, goals):
     
     # If the solver successfully found a valid integer path, return the rounded total presses
     if result.success:
-        return int(round(result.fun))
+        return round(result.fun)
     
     return 0  # Fallback if a machine has no possible mathematical configuration
 

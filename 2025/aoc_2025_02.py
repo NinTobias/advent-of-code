@@ -1,9 +1,8 @@
 from pathlib import Path
-from os import path
 
-cwd = f'{Path(__file__).parent}\\Inputs\\{path.splitext(path.basename(__file__))[0]}.txt'
+cwd = Path(__file__).parent / "Inputs" / f"{Path(__file__).stem}.txt"
 
-with open(cwd) as f:
+with open(cwd, encoding="utf-8") as f:
     lines = f.read().split(",")
 
 def has_repeating_subsequence(s : str) -> bool:
@@ -24,24 +23,24 @@ def has_multiple_repeating_subsequences(s : str) -> bool:
     return False
 
 def func1():
-    sum = 0
+    total = 0
     for line in lines:
         first, last = line.split("-")
         for i in range(int(first), int(last) + 1):
             if has_repeating_subsequence(str(i)):
                 #print(f'Found invalid ID: {i}')
-                sum += i
-    return sum
+                total += i
+    return total
 
 def func2():
-    sum = 0
+    total = 0
     for line in lines:
         first, last = line.split("-")
         for i in range(int(first), int(last) + 1):
             if has_multiple_repeating_subsequences(str(i)):
                 #print(f'Found invalid ID: {i}')
-                sum += i
-    return sum    
+                total += i
+    return total    
 
 if __name__ == '__main__':
     print(f'Solution Part A: {func1()}')

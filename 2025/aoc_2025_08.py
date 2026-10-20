@@ -1,18 +1,17 @@
-from pathlib import Path
-from os import path
 from itertools import combinations
 from math import dist, prod
+from pathlib import Path
 
-cwd = f'{Path(__file__).parent}\\Inputs\\{path.splitext(path.basename(__file__))[0]}.txt'
+cwd = Path(__file__).parent / "Inputs" / f"{Path(__file__).stem}.txt"
 
 with open(cwd, encoding='utf-8') as f:
     lines = [line.rstrip('\n') for line in f]
     lines = [[int(coord) for coord in line.split(",")] for line in lines]
 
-def generate_distances(lines):
+def generate_distances(points):
     return sorted([
-        [dist(lines[index1], lines[index2]), index1, index2]
-        for index1, index2 in combinations(range(len(lines)), 2)
+        [dist(points[index1], points[index2]), index1, index2]
+        for index1, index2 in combinations(range(len(points)), 2)
         ], key= lambda x: x[0])
 
 def find_representative(parent, i):

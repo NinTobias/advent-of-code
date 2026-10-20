@@ -1,24 +1,22 @@
 from pathlib import Path
-from os import path
 
-cwd = f'{Path(__file__).parent}\\Inputs\\{path.splitext(path.basename(__file__))[0]}.txt'
+cwd = Path(__file__).parent / "Inputs" / f"{Path(__file__).stem}.txt"
 
-with open(cwd) as f:
+with open(cwd, encoding="utf-8") as f:
     lines = [line.rstrip('\n') for line in f]
 
 def determine_2digit_maximum_joltage(s : str) -> int:
     """Determine the maximum 2 digit joltage that can be formed from a 
     string of digits. Joltage is defined as the maximum n-digit 
     number that can be formed from the digits in the string."""
-    max, current = 0, 0
+    maximum, current = 0, 0
     p1, p2 = 0, 0
-    for i in range(0, len(s)):
+    for i in range(len(s)):
         for j in range(i+1, len(s)):
             p1, p2 = s[i], s[j]
             current = 10*int(p1) + int(p2)
-            if current > max:
-                max = current
-    return max
+            maximum = max(maximum, current)
+            return maximum
 
 def determine_n_digit_maximum_joltage(s: str, n: int) -> int:
     start = 0

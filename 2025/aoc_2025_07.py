@@ -1,9 +1,8 @@
 from pathlib import Path
-from os import path
 
-cwd = f'{Path(__file__).parent}\\Inputs\\{path.splitext(path.basename(__file__))[0]}.txt'
+cwd = Path(__file__).parent / "Inputs" / f"{Path(__file__).stem}.txt"
 
-with open(cwd, encoding='utf-8') as f:
+with open(cwd, encoding="utf-8") as f:
     lines = [line.rstrip('\n') for line in f]
 
 def find_start(line : str) -> int:

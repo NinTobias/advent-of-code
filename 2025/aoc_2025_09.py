@@ -1,9 +1,9 @@
-from pathlib import Path
-from os import path
 from itertools import combinations
+from pathlib import Path
+
 from shapely.geometry.polygon import Polygon
 
-cwd = f'{Path(__file__).parent}\\Inputs\\{path.splitext(path.basename(__file__))[0]}.txt'
+cwd = Path(__file__).parent / "Inputs" / f"{Path(__file__).stem}.txt"
 
 with open(cwd, encoding='utf-8') as f:
     lines_initial = [line.rstrip('\n') for line in f]

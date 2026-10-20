@@ -1,9 +1,8 @@
 from pathlib import Path
-from os import path
 
-cwd = f'{Path(__file__).parent}\\Inputs\\{path.splitext(path.basename(__file__))[0]}.txt'
+cwd = Path(__file__).parent / "Inputs" / f"{Path(__file__).stem}.txt"
 
-with open(cwd) as f:
+with open(cwd, encoding="utf-8") as f:
     lines = [line.rstrip('\n') for line in f]
 
 def pad_input_grid(grid : list[str]) -> list[str]:
@@ -25,14 +24,12 @@ def func1():
             if g[y][x] == "@":
                 # collect the 8 neighbouring cells
                 all_neighbors = "".join(
-                    (
                         g[y + dy][x + dx]
                         for dy in (-1, 0, 1)
                         for dx in (-1, 0, 1)
                         if not (dy == 0 and dx == 0)
-                    )
                 )
-                neighbours = all_neighbors.count("@");
+                neighbours = all_neighbors.count("@")
                 if neighbours < 4:
                     count += 1  
     return count
@@ -49,12 +46,10 @@ def func2():
                 if g[y][x] != ".":
                     # build neighbors string more readably
                     all_neighbors = "".join(
-                        (
                             g[y + dy][x + dx]
                             for dy in (-1, 0, 1)
                             for dx in (-1, 0, 1)
                             if not (dy == 0 and dx == 0)
-                        )
                     )
                     valid_neighbours = sum(all_neighbors.count(valid) for valid in ("@", "X"))
                     if valid_neighbours < 4:

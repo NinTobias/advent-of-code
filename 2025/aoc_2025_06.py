@@ -1,9 +1,8 @@
 from pathlib import Path
-from os import path
 
-cwd = f'{Path(__file__).parent}\\Inputs\\{path.splitext(path.basename(__file__))[0]}.txt'
+cwd = Path(__file__).parent / "Inputs" / f"{Path(__file__).stem}.txt"
 
-with open(cwd) as f:
+with open(cwd, encoding="utf-8") as f:
     lines = [line.rstrip('\n') for line in f]
     cleaned_lines = [line.split() for line in lines]
 
@@ -27,7 +26,7 @@ def func2():
     for line in cleaned_lines_horizontal:
         length = len(max(line, key=len))
         transpose = []
-        for i in range(length):
+        for _ in range(length):
             compound = ""
             for index, s in enumerate(line):
                 try:
