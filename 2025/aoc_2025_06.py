@@ -1,54 +1,44 @@
+from math import prod
 from pathlib import Path
 
 cwd = Path(__file__).parent / "Inputs" / f"{Path(__file__).stem}.txt"
 
 with open(cwd, encoding="utf-8") as f:
-    lines = [line.rstrip('\n') for line in f]
+    lines = [line.rstrip('\n') for line in f if line.strip()]
     cleaned_lines = [line.split() for line in lines]
 
 
 def func1():
-    return sum(
-        sum(values) if op == "+" else values[0] * values[1] * values[2] * values[3]
-        for a, b, c, d, op in zip(*cleaned_lines)
-        for values in [list(map(int, (a, b, c, d)))]
-    )
+    *number_rows, operators = cleaned_lines
+    total = 0
+    for *values, op in zip(*number_rows, operators):
+        numbers = list(map(int, values))
+        print(numbers)
+        total += sum(numbers) if op == "+" else prod(numbers)
+    return total
 
 def func2():
-    cleaned_lines_horizontal = []
-    for index in range(len(cleaned_lines[0])):
-        cleaned_lines_horizontal.append(
-            [cleaned_lines[0][index], cleaned_lines[1][index], 
-             cleaned_lines[2][index], cleaned_lines[3][index]]
-            )
-        
-    transposed_lines = []
-    for line in cleaned_lines_horizontal:
-        length = len(max(line, key=len))
-        transpose = []
-        for _ in range(length):
-            compound = ""
-            for index, s in enumerate(line):
-                try:
-                    compound += s[-1]
-                    line[index] = s[:-1]
-                except IndexError:
-                    pass
-            transpose.append(compound)
-        transposed_lines.append(transpose)
-    transposed_lines.append(cleaned_lines[4])
+    *number_rows, operators = lines
+    columns = list(zip(*number_rows))[::-1]
 
-    print(transposed_lines)
+    groups, current_group = [], []
+    for column in columns:
+        if all(char == " " for char in column):
+            if current_group:
+                groups.append(current_group)
+                current_group = []
+        else:
+            current_group.append(int("".join(column).strip()))
 
-    return sum(
-        sum(values) if op == "+" else values[0] * values[1] * values[2] * values[3]
-        for a, b, c, d, op in zip(*transposed_lines)
-        for values in [list(map(int, (a, b, c, d)))]
-    )
-            
+    if current_group:
+        groups.append(current_group)
 
+    total, ops = 0, operators.split()[::-1]
+    for group, op in zip(groups, ops):
+        total += sum(group) if op == "+" else prod(group)
+    return total
 
 if __name__ == '__main__':
-    #print(cleaned_lines)
+    print(cleaned_lines)
     print(f'Solution Part A: {func1()}')
     print(f'Solution Part B: {func2()}')
